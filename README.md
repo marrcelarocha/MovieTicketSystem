@@ -1,5 +1,5 @@
 # MovieTicketSystem
-Projeto de software / POO
+Projeto de software/POO
 
 #### CLASSES
 
