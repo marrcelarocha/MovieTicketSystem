@@ -196,23 +196,23 @@ cinemas = {}
 def inicializar_dados():
     global cinemas
     cinesystem = CINEMA("Cinesystem")
-    filme1_cinesystem = MOVIE("Duna: Parte 2", 166, "Ficção Científica")
-    filme2_cinesystem = MOVIE("O Gato de Botas 2", 102, "Animação")
+    filme1_cinesystem = MOVIE("Duna: Parte 2", 166, "Sci-Fi")
+    filme2_cinesystem = MOVIE("O Gato de Botas 2", 102, "Animation")
     filme1_cinesystem.add_showtime("19:00", 1, [SEAT(f"A{i}") for i in range(1, 11)])
     filme2_cinesystem.add_showtime("16:00", 2, [SEAT(f"B{i}") for i in range(1, 11)])
     cinesystem.add_movie(filme1_cinesystem)
     cinesystem.add_movie(filme2_cinesystem)
 
     kinoplex = CINEMA("Kinoplex")
-    filme1_kinoplex = MOVIE("Vingadores: Ultimato", 181, "Ação")
-    filme2_kinoplex = MOVIE("O Gato de Botas 2", 102, "Animação")
+    filme1_kinoplex = MOVIE("Vingadores: Ultimato", 181, "Action")
+    filme2_kinoplex = MOVIE("O Gato de Botas 2", 102, "Animation")
     filme1_kinoplex.add_showtime("20:00", 3, [SEAT(f"C{i}") for i in range(1, 11)])
     filme2_kinoplex.add_showtime("17:00", 4, [SEAT(f"D{i}") for i in range(1, 11)])
     kinoplex.add_movie(filme1_kinoplex)
     kinoplex.add_movie(filme2_kinoplex)
     
     centerplex = CINEMA("Centerplex")
-    filme1_centerplex = MOVIE("Duna: Parte 2", 166, "Ficção Científica")
+    filme1_centerplex = MOVIE("Duna: Parte 2", 166, "Sci-Fi")
     filme1_centerplex.add_showtime("21:00", 5, [SEAT(f"E{i}") for i in range(1, 11)])
     centerplex.add_movie(filme1_centerplex)
 
@@ -225,19 +225,19 @@ def inicializar_dados():
 def menu_principal():
     global usuario_logado
     while True:
-        print("\n--- Menu Principal ---")
+        print("\n--- Main Menu ---")
         if usuario_logado:
-            print(f"Bem-vindo(a), {usuario_logado.name}!")
-            print("1. Ver Filmes")
-            print("2. Minhas Reservas")
-            print("3. Avaliar um Filme")
-            print("4. Sair (logout)")
+            print(f"Welcome, {usuario_logado.name}!")
+            print("1. Watch Movies")
+            print("2. My Reservations")
+            print("3. Reviewing a Movie")
+            print("4. Logout")
         else:
             print("1. Login")
-            print("2. Ver Filmes")
-            print("3. Sair")
+            print("2. Watch Movies")
+            print("3. Exit")
         
-        escolha = input("Escolha uma opção: ")
+        escolha = input("Select an option: ")
 
         if escolha == "1":
             if usuario_logado:
@@ -253,58 +253,58 @@ def menu_principal():
             if usuario_logado:
                 avaliar_filme()
             else:
-                print("Obrigado por usar o sistema! 😊")
+                print("Thank you for using the system!")
                 sys.exit()
         elif escolha == "4":
             if usuario_logado:
                 usuario_logado = None
-                print("Você saiu da sua conta.")
+                print("You have logged out of your account.")
             else:
-                print("Opção inválida. Tente novamente.")
+                print("Invalid option. Please try again.")
         else:
-            print("Opção inválida. Tente novamente.")
+            print("Invalid option. Please try again.")
 
 def login():
     global usuario_logado
-    resposta = input("Você já possui cadastro? (sim/não): ").lower()
+    resposta = input("Are you already registered? (yes/no): ").lower()
     
-    if resposta == "sim":
+    if resposta == "yes":
         processar_login()
-    elif resposta == "nao" or resposta == "não":
+    elif resposta == "no":
         registrar()
     else:
-        print("Resposta inválida. Por favor, digite 'sim' ou 'não'.")
+        print("Resposta inválida. Por favor, digite 'yes' ou 'no'.")
 
 def processar_login():
     global usuario_logado
     login_user = input("Login: ")
-    password_user = input("Senha: ")
+    password_user = input("Password: ")
     
     if login_user in usuarios_registrados and usuarios_registrados[login_user].password == password_user:
         usuario_logado = usuarios_registrados[login_user]
-        print(f"Login realizado com sucesso! Bem-vindo(a), {usuario_logado.name}.")
+        print(f"Login successful! Welcome!, {usuario_logado.name}.")
     else:
-        print("Login ou senha incorretos.")
+        print("Incorrect login or password.")
 
 def registrar():
-    name = input("Nome: ")
+    name = input("Name: ")
     login_user = input("Login: ")
-    password_user = input("Senha: ")
+    password_user = input("Password: ")
     
     if login_user in usuarios_registrados:
-        print("Esse login já existe. Tente outro.")
+        print("This login already exists. Please try another one.")
     else:
         usuarios_registrados[login_user] = USER(name, login_user, password_user)
-        print("Usuário registrado com sucesso!")
+        print("User successfully registered!")
 
 def ver_cinemas():
-    print("\n--- Escolha um Cinema ---")
+    print("\n--- Choose a Cinema ---")
     for i, cinema_nome in enumerate(cinemas.keys(), 1):
         print(f"{i}. {cinema_nome}")
-    print("0. Voltar ao menu principal")
+    print("0. Back to main menu")
     
     while True:
-        escolha = input("Digite o número do cinema: ")
+        escolha = input("Enter the theater number: ")
         if escolha == '0':
             return
         try:
@@ -312,111 +312,111 @@ def ver_cinemas():
             ver_filmes(cinemas[cinema_nome])
             break
         except (ValueError, IndexError):
-            print("Opção inválida.")
+            print("Invalid option.")
             
 def ver_filmes(cinema_obj):
     cinema_obj.list_movies()
         
     if not usuario_logado:
-        input("Pressione Enter para voltar ao menu...")
+        input("Press Enter to return to the menu...")
         return
         
-    escolha_filme = input("Digite o nome do filme que deseja comprar ingresso (ou 'sair' para voltar): ")
-    if escolha_filme.lower() == 'sair':
+    escolha_filme = input("Enter the name of the movie you want to buy tickets for (or ‘exit’ to go back): ")
+    if escolha_filme.lower() == 'exit':
         return
     
     filme_selecionado = next((m for m in cinema_obj.movies if m.name.lower() == escolha_filme.lower()), None)
     if not filme_selecionado:
-        print("Filme não encontrado. Tente novamente.")
+        print("Movie not found. Please try again.")
         return
         
     comprar_ingresso(filme_selecionado)
 
 def comprar_ingresso(movie):
-    print(f"\n--- Comprar Ingresso para '{movie.name}' ---")
+    print(f"\n--- Buy Ticket for '{movie.name}' ---")
     movie.list_showtimes()
     
-    escolha_horario = input("Digite o horário da sessão (ex: 19:00): ")
+    escolha_horario = input("Enter the session time (ex: 19:00): ")
     showtime_selecionado = next((s for s in movie.showtimes if s.time == escolha_horario), None)
     
     if not showtime_selecionado:
-        print("Horário inválido. Tente novamente.")
+        print("Invalid time. Please try again.")
         return
         
-    print(f"\nHorário selecionado: {showtime_selecionado.time} | Sala: {showtime_selecionado.screen_number}")
+    print(f"\nSelected time: {showtime_selecionado.time} | Room: {showtime_selecionado.screen_number}")
     showtime_selecionado.list_available_seats()
     
-    escolha_assento = input("Digite o número do assento desejado (ex: A5): ")
+    escolha_assento = input("Enter the number of the seat you want (ex: A5): ")
     assento_selecionado = next((s for s in showtime_selecionado.seats if s.row_and_number.lower() == escolha_assento.lower()), None)
     
     if not assento_selecionado or assento_selecionado.is_reserved:
-        print("Assento inválido ou já reservado.")
+        print("Seat invalid or already reserved.")
         return
     
-    tipo_ingresso = input("Digite o tipo de ingresso (Padrão, Estudante, Assinante): ")
+    tipo_ingresso = input("Enter the ticket type (Standard, Student, Subscriber): ")
     preco = 25.0
     
-    ticket = TICKET(f"Ingresso {tipo_ingresso}", preco, assento_selecionado, showtime_selecionado)
+    ticket = TICKET(f"Ticket {tipo_ingresso}", preco, assento_selecionado, showtime_selecionado)
     ticket.promotion() #polimorfismo
 
-    print(f"\nResumo da Compra:")
-    print(f"Filme: {movie.name}")
-    print(f"Sessão: {showtime_selecionado.time} - Sala {showtime_selecionado.screen_number}")
-    print(f"Assento: {assento_selecionado.row_and_number}")
-    print(f"Preço: R$ {ticket.price:.2f}")
+    print(f"\nPurchase Summary:")
+    print(f"Movie: {movie.name}")
+    print(f"Session: {showtime_selecionado.time} - Room {showtime_selecionado.screen_number}")
+    print(f"Seat: {assento_selecionado.row_and_number}")
+    print(f"Price: R$ {ticket.price:.2f}")
 
-    escolha_combo = input("Deseja adicionar um combo de pipoca? (S/N): ")
-    if escolha_combo.lower() == "s":
-        combo_size = input("Tamanho da pipoca (P, M, L): ").upper()
-        popcorn = POPCORN("Pipoca", 0.0, combo_size)
+    escolha_combo = input("Would you like to add a popcorn combo? (Y/N): ")
+    if escolha_combo.lower() == "y":
+        combo_size = input("Popcorn size (S, M, L): ").upper()
+        popcorn = POPCORN("Popcorn", 0.0, combo_size)
         popcorn.purchase_product()
-        print(f"Combo de {popcorn.name} ({popcorn.size}) adicionado. Preço: R$ {popcorn.price:.2f}")
+        print(f"Combo of {popcorn.name} ({popcorn.size}) added. Price: R$ {popcorn.price:.2f}")
         ticket.price += popcorn.price
 
-    pagar = input(f"Preço total: R$ {ticket.price:.2f}. Deseja prosseguir com o pagamento? (S/N): ")
-    if pagar.lower() == "s":
+    pagar = input(f"Total price: R$ {ticket.price:.2f}. Do you wish to proceed with the payment? (Y/N): ")
+    if pagar.lower() == "y":
         ticket.purchase_product()
         usuario_logado.add_booking(ticket)
-        print("\nPagamento processado e reserva confirmada! 🥳")
+        print("\nPayment processed and reservation confirmed!")
     else:
-        print("Compra cancelada.")
+        print("Purchase canceled.")
 
 def avaliar_filme():
     if not usuario_logado:
-        print("Você precisa estar logado para avaliar um filme.")
+        print("You must be logged in to rate a movie.")
         return
     
-    print("\n--- Escolha um Cinema para Avaliar um Filme ---")
+    print("\n--- Choose a Cinema to Rate a Movie ---")
     for i, cinema_nome in enumerate(cinemas.keys(), 1):
         print(f"{i}. {cinema_nome}")
-    print("0. Voltar ao menu principal")
+    print("0. Back to main menu")
 
     while True:
-        escolha = input("Digite o número do cinema: ")
+        escolha = input("Enter the theater number: ")
         if escolha == '0':
             return
         try:
             cinema_nome = list(cinemas.keys())[int(escolha) - 1]
             cinema_obj = cinemas[cinema_nome]
             
-            print(f"\n--- Filmes disponíveis no {cinema_obj.name} ---")
+            print(f"\n--- Movies available on {cinema_obj.name} ---")
             for i, movie in enumerate(cinema_obj.movies, 1):
                 print(f"{i}. {movie.name}")
             
-            escolha_filme = input("Digite o número do filme que deseja avaliar: ")
+            escolha_filme = input("Enter the number of the movie you want to rate: ")
             movie_to_review = cinema_obj.movies[int(escolha_filme) - 1]
 
-            rating = int(input("Sua avaliação (1 a 5): "))
+            rating = int(input("Your rating (1 a 5): "))
             if rating < 1 or rating > 5:
                 raise ValueError
-            comment = input("Seu comentário: ")
+            comment = input("Your comment: ")
             
             movie_to_review.add_review(rating, comment)
-            print("Avaliação enviada com sucesso! ✨")
+            print("Review successfully submitted!")
             return
 
         except (ValueError, IndexError):
-            print("Opção inválida. Tente novamente.")
+            print("Invalid option. Please try again.")
 
 # --- Iniciar o programa ---
 if __name__ == "__main__":
